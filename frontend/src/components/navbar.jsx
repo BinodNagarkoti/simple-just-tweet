@@ -1,7 +1,6 @@
 /** @format */
 
 import React from 'react';
-import { faker } from '@faker-js/faker/locale/en';
 
 const Navbar = () => {
     return (

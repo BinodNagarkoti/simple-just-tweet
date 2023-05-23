@@ -46,9 +46,7 @@ function App() {
           </div>
           <div className='col-6 bg-white'>
             <NewTweet
-              onSubmitReturn={(tweets) => {
-                loadTweets();
-              }}
+              onSubmitReturn={loadTweets}
             />
             {tweets?.map((tweet, index) => (
               <TweetDetailsCard

@@ -5,16 +5,6 @@ import { faker } from '@faker-js/faker/locale/en';
 
 const NewTweet = (props) => {
     const [tweetText, setTweetText] = useState('');
-    const [tweets, setTweets] = useState([]);
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const tweetStr = localStorage.getItem('tweets') ?? '[]';
-            const tweetsObj = JSON?.parse(tweetStr) ?? [];
-            if (tweetsObj) {
-                setTweets(tweetsObj);
-            }
-        }
-    }, []);
     const handleChange = (event) => {
         setTweetText(event.target.value);
     };
@@ -23,7 +13,6 @@ const NewTweet = (props) => {
         event.preventDefault();
         // Handle tweet submission logic here
         const tweet = {
-            tweetId: tweets.length + faker.finance.bic(),
             author: {
                 name: faker.person.fullName(),
                 username: faker.hacker.noun(),
@@ -34,15 +23,13 @@ const NewTweet = (props) => {
             likes: 0,
             timestamp: new Date().getTime(),
         };
-        const response = await fetch('http://localhost:5000/api/tweets', {
+        await fetch('http://localhost:5000/api/tweets', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(tweet),
         });
 
-        tweets.push(tweet);
-        props.onSubmitReturn(tweets);
-        console.log(tweetText);
+        props.onSubmitReturn();
         setTweetText('');
     };
 
@@ -60,7 +47,7 @@ const NewTweet = (props) => {
                 <div className='mb-3'>
                     <textarea
                     disabled={tweetText.length >= 280}
-                    
+
                         className='form-control'
                         rows={3}
                         placeholder="What's happening?"

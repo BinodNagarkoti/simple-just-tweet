@@ -53,8 +53,8 @@ const Tweet = mongoose.model('Tweet', TweetSchema);
 app.get('/api/tweets', (req, res) => {
   Tweet.find({})
     .then((tweets) => {
-      const formatedTweet = tweets.map(({ author_name, author_username, author_avatar, likes, content, _id }) => ({
-        likes, content, _id,
+      const formatedTweet = tweets.map(({ author_name, author_username, author_avatar, timestamp, likes, content, _id }) => ({
+        likes, content, _id, timestamp,
         author: {
           name: author_name,
           username: author_username,
@@ -71,10 +71,10 @@ app.get('/api/tweets', (req, res) => {
 
 app.post('/api/tweets', async (req, res) => {
   try {
-    const { author: { name, username, avatar }, likes, content } = req.body;
+    const { author: { name, username, avatar }, likes, timestamp, content } = req.body;
 
     const formatedTweet = {
-      likes, content,
+      likes, content, timestamp,
       author_name: name,
       author_username: username,
       author_avatar: avatar,

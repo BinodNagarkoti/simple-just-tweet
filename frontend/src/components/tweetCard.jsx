@@ -3,29 +3,27 @@
 import React, { useState, useEffect } from 'react';
 import { faker } from '@faker-js/faker/locale/en';
 function timeAgo(timeInMillis) {
-    const seconds = Math.floor((new Date() - timeInMillis) / 1000);
-    let interval = Math.floor(seconds / 31536000);
+	console.log({timeInMillis})
+	const currentDate = new Date();
+	const givenDate = new Date(timeInMillis);
+	const timeDiff = Math.abs(currentDate - givenDate);
+	const minutes = Math.floor(timeDiff / (1000 * 60));
+	const hours = Math.floor(minutes / 60);
+	const days = Math.floor(hours / 24);
+	const months = Math.floor(days / 30);
+	const years = Math.floor(months / 12);
 
-    if (interval >= 1) {
-      return interval + " year" + (interval === 1 ? "" : "s") + " ago";
-    }
-    interval = Math.floor(seconds / 2592000);
-    if (interval >= 1) {
-      return interval + " month" + (interval === 1 ? "" : "s") + " ago";
-    }
-    interval = Math.floor(seconds / 86400);
-    if (interval >= 1) {
-      return interval + " day" + (interval === 1 ? "" : "s") + " ago";
-    }
-    interval = Math.floor(seconds / 3600);
-    if (interval >= 1) {
-      return interval + " hour" + (interval === 1 ? "" : "s") + " ago";
-    }
-    interval = Math.floor(seconds / 60);
-    if (interval >= 1) {
-      return interval + " minute" + (interval === 1 ? "" : "s") + " ago";
-    }
-    return "just now";
+	if (years > 0) {
+		return `${years} year${years > 1 ? 's' : ''} ago`;
+	} else if (months > 0) {
+		return `${months} month${months > 1 ? 's' : ''} ago`;
+	} else if (days > 0) {
+		return `${days} day${days > 1 ? 's' : ''} ago`;
+	} else if (hours > 0) {
+		return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+	} else {
+		return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+	}
   }
 const TweetDetailsCard = ({onActionReturn, tweet}) => {
     const { author, timestamp, content, likes, tweetId } = tweet;
@@ -64,7 +62,7 @@ const TweetDetailsCard = ({onActionReturn, tweet}) => {
                 </div>
                 <div className='tweet-content p-2'>
                     <p>{content}</p>
-                    <p className='fst-italic text-muted'>{timeAgo(timestamp)}</p>
+                    {timestamp &&<p className='fst-italic text-muted'>{timeAgo(new Date(timestamp))}</p>}
                 </div>
                 <div className='tweet-stats d-flex'>
                     <div
