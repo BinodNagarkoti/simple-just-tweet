@@ -107,7 +107,9 @@ app.patch('/api/tweets/:id/like', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
+app.use('/api/*', (req, res, next) => {
+  return res.status(404).json({ message: 'ApiUrl route not found' })
+})
 // Start the server
 const port = 5000;
 app.listen(port, () => {
