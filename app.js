@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(cors());
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/justtweet', {
+mongoose.connect('mongodb+srv://assignmentwork501:root@clusterone.lf29spr.mongodb.net/justtweet?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
